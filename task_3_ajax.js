@@ -18,14 +18,14 @@ buttonCheck.addEventListener("click", function () {
   // console.log(param);
   if (inputIncome.value === "") {
     out.innerHTML = "Введите число";
-    console.clear();
+    // console.clear();
   } else if (
     Number(inputIncome.value) >= 0 &&
     Number(inputIncome.value) <= 10
   ) {
     out.innerHTML = "в диапазоне от 0-10";
     xhrRequest(Number(inputIncome.value));
-    console.log(param);
+    // console.log(param);
   } else {
     out.innerHTML = "«число вне диапазона от 1 до 10»";
   }
