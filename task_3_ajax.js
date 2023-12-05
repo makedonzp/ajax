@@ -14,40 +14,34 @@ let img_server = document.querySelector(".image_from_server");
 let img = document.querySelector("#img_server");
 
 buttonCheck.addEventListener("click", function () {
-  let param = Number(inputIncome.value);
-  // console.log(param);
   if (inputIncome.value === "") {
     out.innerHTML = "Введите число";
-    // console.clear();
   } else if (
     Number(inputIncome.value) >= 0 &&
     Number(inputIncome.value) <= 10
   ) {
     out.innerHTML = "в диапазоне от 0-10";
     xhrRequest(Number(inputIncome.value));
-    // console.log(param);
   } else {
     out.innerHTML = "«число вне диапазона от 1 до 10»";
   }
   inputIncome.value = "";
 });
 
-function xhrRequest() {
+function xhrRequest(number) {
   const xhr = new XMLHttpRequest();
   xhr.open(
     "get",
-    `https://jsonplaceholder.typicode.com/photos?_limit=${Number(
-      inputIncome.value
-    )}`
+    `https://jsonplaceholder.typicode.com/photos?_limit=${number}`
   );
   if (Number(inputIncome.value) == 8) {
     xhr.open("get", `https://jsonplaceholder.typicode.com/photos?_limit=5`);
   }
   xhr.onload = function () {
     let data = JSON.parse(xhr.response);
-    // console.log(data);
-    // console.log(Number(inputIncome.value));
-    img.src = `${data[Number(inputIncome.value)].thumbnailUrl}`;
+    for (let i = 0; i < data.length; i++) {
+      img.src = data[i].thumbnailUrl;
+    }
   };
 
   xhr.send();
