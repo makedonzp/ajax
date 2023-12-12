@@ -13,26 +13,30 @@
 
 let inputWidth = document.querySelector(".input_width");
 let inputHeight = document.querySelector(".input_height");
-let btnCheck = document.querySelector(".box_result");
+let btnCheck = document.querySelector(".btn_result");
 let imageResult = document.querySelector(".img_server");
 let out = document.querySelector(".result_out");
 
 btnCheck.addEventListener("click", () => {
   if (
-    (inputWidth.value >= 100 && inputWidth.value <= 300,
-    inputHeight.value >= 100 && inputHeight.value <= 300)
+    inputWidth.value >= 100 &&
+    inputWidth.value <= 300 &&
+    inputHeight.value >= 100 &&
+    inputHeight.value <= 300
   ) {
     fetch(
       `https://dummyimage.com/${inputWidth.value}x${inputHeight.value}/`
     ).then((data) => {
-      for (let key in data) {
-        imageResult.src = data.url;
-      }
+      imageResult.innerHTML = `<img src="${data.url}" alt="image" />`;
     });
+    imageResult.innerHTML = "";
     out.innerHTML = "";
-  } else {
+  } else if (inputHeight.value == "" && inputWidth.value == "") {
     out.innerHTML = "«одно из чисел вне диапазона от 100 до 300»";
-    imageResult.src = "/images/images.jpeg";
+    imageResult.innerHTML = `<img src="../images/images.jpeg" alt="empty image" />`;
+  } else if (inputWidth.value < 100 || inputHeight.value < 100) {
+    out.innerHTML = "«одно из чисел вне диапазона от 100 до 300»";
+    imageResult.innerHTML = `<img src="../images/images.jpeg" alt="empty image" />`;
   }
   inputWidth.value = "";
   inputHeight.value = "";
