@@ -21,59 +21,48 @@
 
 const letterNumber = document.querySelector(".input_letter_number");
 const letterLimit = document.querySelector(".input_letter_limit");
-const btnRequest = document.querySelector(".box_request");
-const outNumber = document.querySelector(".result_out_number");
-const outLimit = document.querySelector(".result_out_limit");
-const imgResult = document.querySelector(".img_server");
-let answer = new Object();
+const btnRequest = document.querySelector(".btn_request");
+const outLimitText = document.querySelector(".result_out_number");
+const outNumberText = document.querySelector(".result_out_limit");
+const outText = document.querySelector(".out_text");
+const imgResult = document.querySelector(".image_from_server");
+const limitPlusNumber = document.querySelector(".limit_plus_number");
+
 btnRequest.addEventListener("click", () => {
-  if (Number(letterNumber.value) >= 1 && Number(letterNumber.value) <= 10) {
-    fetch(
-      `https://jsonplaceholder.typicode.com/photos?_page=${letterNumber.value}&_limit=${letterLimit.value}`
-    ).then((data) => {
-      answer = data.url;
-      console.log(answer);
-    });
-    // console.log(`${letterNumber.value} в диапазоне от 1-10`);
-  } else {
-    outNumber.innerHTML = "«Номер страницы вне диапазона от 1 до 10»";
-    setTimeout(() => {
-      outNumber.innerHTML = "";
-      outLimit.innerHTML = "";
-    }, "2000");
-    clearTimeout();
-    console.log(typeof Number(letterNumber.value));
-    console.log(typeof Number(letterLimit.value));
-  }
-
-  if (Number(letterLimit.value) > 1 && Number(letterLimit.value) < 10) {
-  } else {
-    outLimit.innerHTML = "«Лимит вне диапазона от 1 до 10»";
-    setTimeout(() => {
-      outNumber.innerHTML = "";
-      outLimit.innerHTML = "";
-    }, "2000");
-    clearTimeout();
-  }
-
   if (
-    Number(letterNumber.value) == !isNaN &&
-    Number(letterLimit.value) == !isNaN
+    Number(letterNumber.value) == "" ||
+    (Number(letterLimit.value) == "", Number(letterNumber.value) <= 0) ||
+    Number(letterLimit.value) <= 0
   ) {
-    outNumber.innerHTML = "«Номер страницы вне диапазона от 1 до 10»";
-    outLimit.innerHTML = "«Лимит вне диапазона от 1 до 10»";
-    outNumber.innerHTML = "";
-    outLimit.innerHTML = "";
+    outText.innerHTML = `вы ввели либо "0" либо буквы, нужно число в диапазоне 1-10`;
+    imgResult.innerHTML = "";
+  } else if (
+    Number(letterNumber.value) >= 1 &&
+    Number(letterLimit.value) >= 1 &&
+    Number(letterNumber.value) <= 10 &&
+    Number(letterLimit.value) <= 10
+  ) {
+    localStorage.setItem("number letter", letterNumber.value);
+    localStorage.setItem("limit letter", letterLimit.value);
+    fetch(
+      `https://jsonplaceholder.typicode.com/photos?_page=${Number(
+        letterNumber.value
+      )}&_limit=${Number(letterLimit.value)}`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        imgResult.innerHTML = "";
+        letterNumber.value = "";
+        letterLimit.value = "";
+        for (let i = 0; i < data.length; i++) {
+          imgResult.innerHTML += `<img src="${data[i].thumbnailUrl}" alt="image" />`;
+        }
+      });
+    outText.innerHTML = "в диапазоне от 0-10";
+  } else {    
     letterNumber.value = "";
     letterLimit.value = "";
-    console.log(Number(letterNumber.value));
-    console.log(Number(letterLimit.value));
   }
-
-  if (letterNumber.value == "" || letterLimit.value == "") {
-    console.log("введите число");
-  }
-
-  letterNumber.value = "";
-  letterLimit.value = "";
 });
