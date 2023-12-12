@@ -28,7 +28,7 @@ const domParser = new DOMParser();
 
 const xmlDOM = domParser.parseFromString(xmlString, "text/xml");
 
-let list = [{}, {}];
+let list = [];
 
 const student = xmlDOM.querySelectorAll("student");
 const first = xmlDOM.querySelectorAll("first");
@@ -37,20 +37,13 @@ const name = xmlDOM.querySelectorAll("name");
 const age = xmlDOM.querySelectorAll("age");
 
 student.forEach((elem) => {
-  list[0].name =
-    student[0].querySelector("first").textContent +
-    " " +
-    student[0].querySelector("second").textContent;
-  list[0].age = student[0].querySelector("age").textContent;
-  list[0].prof = student[0].querySelector("prof").textContent;
-  list[0].lang = student[0].querySelector("name").getAttribute("lang");
-
-  list[1].name =
-    student[1].querySelector("first").textContent +
-    " " +
-    student[1].querySelector("second").textContent;
-  list[1].age = student[1].querySelector("age").textContent;
-  list[1].prof = student[1].querySelector("prof").textContent;
-  list[1].lang = student[1].querySelector("name").getAttribute("lang");
+  list.push({
+    name: `${elem.querySelector("first").textContent} ${
+      elem.querySelector("second").textContent
+    }`,
+    age: elem.querySelector("age").textContent,
+    prof: elem.querySelector("prof").textContent,
+    lang: elem.querySelector("name").getAttribute("lang"),
+  });
 });
 console.log(list);
