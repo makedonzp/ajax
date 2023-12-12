@@ -8,22 +8,24 @@
 */
 
 let inputIncome = document.querySelector(".input_enter_value");
-let buttonCheck = document.querySelector("button");
+let buttonCheck = document.querySelector(".button");
 let out = document.querySelector(".result_out");
-let img_server = document.querySelector(".image_from_server");
-let img = document.querySelector("#img_server");
+let outText = document.querySelector(".out_text");
 
 buttonCheck.addEventListener("click", function () {
   if (inputIncome.value === "") {
-    out.innerHTML = "Введите число";
+    outText.innerHTML = "Введите число";
+    clean();
   } else if (
     Number(inputIncome.value) >= 0 &&
     Number(inputIncome.value) <= 10
   ) {
-    out.innerHTML = "в диапазоне от 0-10";
+    outText.innerHTML = "в диапазоне от 0-10";
+    clean();
     xhrRequest(Number(inputIncome.value));
   } else {
-    out.innerHTML = "«число вне диапазона от 1 до 10»";
+    outText.innerHTML = "«число вне диапазона от 1 до 10»";
+    clean();
   }
   inputIncome.value = "";
 });
@@ -40,9 +42,12 @@ function xhrRequest(number) {
   xhr.onload = function () {
     let data = JSON.parse(xhr.response);
     for (let i = 0; i < data.length; i++) {
-      img.src = data[i].thumbnailUrl;
+      out.innerHTML += `<img src="${data[i].thumbnailUrl}" alt="image" />`;
     }
   };
-
   xhr.send();
+}
+
+function clean() {
+  out.innerHTML = "";
 }
