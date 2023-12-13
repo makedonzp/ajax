@@ -28,9 +28,10 @@ const outText = document.querySelector(".out_text");
 const imgResult = document.querySelector(".image_from_server");
 const limitPlusNumber = document.querySelector(".limit_plus_number");
 
-letterNumber.value = localStorage.getItem("number letter");
-letterLimit.value = localStorage.getItem("limit letter");
-
+let answer = localStorage.getItem("lastResult")
+  ? JSON.parse(localStorage.getItem("lastResult"))
+  : [];
+render(answer);
 btnRequest.addEventListener("click", () => {
   if (
     Number(letterNumber.value) == "" ||
@@ -45,8 +46,6 @@ btnRequest.addEventListener("click", () => {
     Number(letterNumber.value) <= 10 &&
     Number(letterLimit.value) <= 10
   ) {
-    localStorage.setItem("number letter", letterNumber.value);
-    localStorage.setItem("limit letter", letterLimit.value);
     fetch(
       `https://jsonplaceholder.typicode.com/photos?_page=${Number(
         letterNumber.value
@@ -56,12 +55,8 @@ btnRequest.addEventListener("click", () => {
         return response.json();
       })
       .then((data) => {
-        imgResult.innerHTML = "";
-        letterNumber.value = "";
-        letterLimit.value = "";
-        for (let i = 0; i < data.length; i++) {
-          imgResult.innerHTML += `<img src="${data[i].thumbnailUrl}" alt="image" />`;
-        }
+        answer = data;
+        render(answer);
       });
     outText.innerHTML = "в диапазоне от 0-10";
   } else {
@@ -69,3 +64,13 @@ btnRequest.addEventListener("click", () => {
     letterLimit.value = "";
   }
 });
+
+function render(data) {
+  imgResult.innerHTML = "";
+  letterNumber.value = "";
+  letterLimit.value = "";
+  for (let i = 0; i < data.length; i++) {
+    imgResult.innerHTML += `<img src="${data[i].thumbnailUrl}" alt="image" />`;
+  }
+  localStorage.setItem("lastResult", JSON.stringify(data));
+}
