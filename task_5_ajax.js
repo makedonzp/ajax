@@ -28,6 +28,9 @@ const outText = document.querySelector(".out_text");
 const imgResult = document.querySelector(".image_from_server");
 const limitPlusNumber = document.querySelector(".limit_plus_number");
 
+letterNumber.value = localStorage.getItem("number letter");
+letterLimit.value = localStorage.getItem("limit letter");
+
 btnRequest.addEventListener("click", () => {
   if (
     Number(letterNumber.value) == "" ||
@@ -61,7 +64,7 @@ btnRequest.addEventListener("click", () => {
         }
       });
     outText.innerHTML = "в диапазоне от 0-10";
-  } else {    
+  } else {
     letterNumber.value = "";
     letterLimit.value = "";
   }
