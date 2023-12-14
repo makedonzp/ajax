@@ -1,0 +1,60 @@
+@import url("../css/zero_styles.css");
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgb(71, 71, 71);
+  min-height: 100vh;
+  color: #fff;
+  gap: 30px;
+}
+.container h1 {
+  font-size: 32px;
+  line-height: 46px;
+  font-weight: 700;
+}
+.input_enter_value {
+  height: 30px;
+  padding: 0 0 0 40px;
+  width: 162px;
+}
+button {
+  width: 162px;
+  height: 50px;
+  background-color: darkgrey;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 46px;
+}
+.result {
+  min-width: 162px;
+  height: 50px;
+  background: #ffffff;
+  border-radius: 5px;
+  border: solid 3px #303030;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  font-weight: bold;
+  padding: 5px;
+}
+.result_out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 640px;
+  text-align: center;
+}
+.result_out img {
+  margin-bottom: 5px;
+  margin: 5px;
+}
+.box_result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
